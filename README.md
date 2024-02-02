@@ -42,7 +42,7 @@ Optional arguments:
   -u USERNAME, --username USERNAME
                         username for the ONVIF camera
   -p PASSWORD, --password PASSWORD
-                        password for the ONVIF camera
+                        password for the ONVIF camera                        
 ```
 
 **Example**
