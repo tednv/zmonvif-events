@@ -6,8 +6,10 @@ const {ArgumentParser} = require('argparse');
 const pjson = require('./package.json');
 
 class ZoneminderService {
-  constructor(basePath) {
-    this.basePath = basePath
+	constructor(args) {
+		this.basePath = args.zm_base_url;
+		this.username = args.zm_username;
+		this.password = args.zm_password;
   }
 
   /**
@@ -17,7 +19,8 @@ class ZoneminderService {
   setAlarm(monitorId, state) {
     console.log(`Setting monitor ${monitorId} to state ${state}`);
     const cmd = state ? 'on' : 'off';
-    const url = `${this.basePath}api/monitors/alarm/id:${monitorId}/command:${cmd}.json`;
+    const url = `${this.basePath}api/monitors/alarm/id:${monitorId}/command:${cmd}.json?username=${this.username}&password=${this.password}`;
+    console.log(`fetching ${url}`);
     return fetch(url);
   }
 }
@@ -78,7 +81,7 @@ class Monitor {
 }
 
 async function start(args) {
-  const zoneminder = new ZoneminderService(args.zm_base_url);
+  const zoneminder = new ZoneminderService(args);
   const monitor = await Monitor.create({
     id: args.zm_monitor_id,
     hostname: args.hostname,
@@ -101,6 +104,14 @@ function main() {
   });
   parser.addArgument(['-i', '--zm-monitor-id'], {
     help: 'The ID of the monitor in Zoneminder',
+    required: true
+  });
+  parser.addArgument(['-n', '--zm-username'], {
+    help: 'The username for Zoneminder API',
+    required: true
+  });
+  parser.addArgument(['-w', '--zm-password'], {
+	help: 'The password for Zoneminder API',
     required: true
   });
   parser.addArgument(['-c', '--hostname'], {
