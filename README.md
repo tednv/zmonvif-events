@@ -12,26 +12,31 @@ This tool connects to an ONVIF camera and subscribes to these messages. When the
 ## Install
 
 ```bash
-npm install -g zmonvif-events
+root@zm2:/usr/local/bin# npm install -g tednv/zmonvif-events
 ```
 
 ## Usage
 
 ```bash
-zmonvif-events --help
-usage: zmonvif-events [-h] -z ZM_BASE_URL -i ZM_MONITOR_ID -c HOSTNAME
-                         [-u USERNAME] [-p PASSWORD]
+root@zm2:/usr/local/bin# ./zmonvif-events --help
+usage: zmonvif-events [-h] [-v] -z ZM_BASE_URL -i ZM_MONITOR_ID -n ZM_USERNAME
+                      -w ZM_PASSWORD -c HOSTNAME [-u USERNAME] [-p PASSWORD]
 
 
 ONVIF motion detection events bridge to Zoneminder
 
 Optional arguments:
   -h, --help            Show this help message and exit.
+  -v, --version         Show program's version number and exit.
   -z ZM_BASE_URL, --zm-base-url ZM_BASE_URL
                         Base URL for the Zoneminder instance (with trailing
                         slash)
   -i ZM_MONITOR_ID, --zm-monitor-id ZM_MONITOR_ID
                         The ID of the monitor in Zoneminder
+  -n ZM_USERNAME, --zm-username ZM_USERNAME
+                        The username for Zoneminder API
+  -w ZM_PASSWORD, --zm-password ZM_PASSWORD
+                        The password for Zoneminder API
   -c HOSTNAME, --hostname HOSTNAME
                         hostname/IP of the ONVIF camera
   -u USERNAME, --username USERNAME
@@ -43,20 +48,6 @@ Optional arguments:
 **Example**
 
 ```bash
-  zmonvif-events \
-      --zm-base-url http://my-zoneminder-instance.com/zm/ \
-      --zm-monitor-id 1 \
-      --hostname 192.168.1.55 \
-      --username supersecretusername \
-      --password dontshareme
-```
-```
+root@zm2:/usr/local/bin# ./zmonvif-events -z http://zm2/zm -i 1 -n admin -w xxxxxxxxxxxxx -c camXXXXXXX -u admin -p xxxxxxxxxxxxx
 [monitor 1]: Started
-[monitor 1]: CellMotionDetector: Motion Detected: true
-Setting monitor 1 to state true
-[monitor 1]: CellMotionDetector: Motion Detected: false
-Setting monitor 1 to state false
-[monitor 1]: CellMotionDetector: Motion Detected: true
-Setting monitor 1 to state true
-[monitor 1]: CellMotionDetector: Motion Detected: false
 ```
